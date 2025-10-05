@@ -1,8 +1,12 @@
 import {Link} from 'react-router-dom';
+import {Helmet} from 'react-helmet-async';
 
 function NonFoundPage() : JSX.Element {
   return (
     <div>
+      <Helmet>
+        <title>Not Found</title>
+      </Helmet>
       <div>
         <h1>404</h1>
         <h2>Страница не найдена</h2>
