@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet-async';
+import {AppRoute} from '../../const.ts';
 
 function NonFoundPage() : JSX.Element {
   return (
@@ -13,7 +14,7 @@ function NonFoundPage() : JSX.Element {
         <p>
           Извините, запрашиваемая страница не существует или была перемещена.
         </p>
-        <Link to="/">
+        <Link to={AppRoute.Main}>
           Вернуться на главную
         </Link>
       </div>

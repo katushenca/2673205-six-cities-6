@@ -7,19 +7,20 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {HelmetProvider} from 'react-helmet-async';
+import {OfferInfo} from '../../types/offerInfo.ts';
 
 type AppProps = {
-  cardsCount : number;
+  offers: OfferInfo[];
 }
 
-function App({cardsCount} : AppProps) : JSX.Element {
+function App({offers} : AppProps) : JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cardsCount={cardsCount} />}
+            element={<MainPage offers={offers} isFavoritePage={false}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -27,15 +28,15 @@ function App({cardsCount} : AppProps) : JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage />}
+            element={<OfferPage offers={offers} authStatus={AuthorizationStatus.Auth}/>} // временно, чтобы проверить работу компонента комментария
           />
           <Route
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth} //временно, чтобы проверить работу страницы
               >
-                <FavoritesPage />
+                <FavoritesPage offers={offers} isFavoritePage/>
               </PrivateRoute>
             }
           />

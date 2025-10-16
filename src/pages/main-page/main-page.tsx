@@ -1,11 +1,15 @@
-import CitiesCard from '../../components/cities-card/cities-card';
 import {Helmet} from 'react-helmet-async';
+import OffersList from '../../components/offers-list/offers-list.tsx';
+import {OfferInfo} from '../../types/offerInfo.ts';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const.ts';
 
 type MainPageProps = {
-  cardsCount : number;
+  offers : OfferInfo[];
+  isFavoritePage: boolean;
 }
 
-function MainPage({cardsCount} : MainPageProps) : JSX.Element {
+function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -15,7 +19,7 @@ function MainPage({cardsCount} : MainPageProps) : JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <Link className="header__logo-link header__logo-link--active" to={AppRoute.Main}>
                 <img
                   className="header__logo"
                   src="markup/img/logo.svg"
@@ -23,21 +27,21 @@ function MainPage({cardsCount} : MainPageProps) : JSX.Element {
                   width={81}
                   height={41}
                 />
-              </a>
+              </Link>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a
+                  <Link
                     className="header__nav-link header__nav-link--profile"
-                    href="#"
+                    to={AppRoute.Favorites}
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
                   Oliver.conner@gmail.com
                     </span>
                     <span className="header__favorite-count">3</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
@@ -91,7 +95,7 @@ function MainPage({cardsCount} : MainPageProps) : JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{cardsCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -118,58 +122,7 @@ function MainPage({cardsCount} : MainPageProps) : JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <CitiesCard
-                  isPremium
-                  url='#'
-                  imageSrc='markup/img/apartment-01.jpg'
-                  priceValue={120}
-                  isBookmark={false}
-                  rating={4}
-                  cardName='Beautiful &amp; luxurious apartment at great location'
-                  cardType='Apartment'
-                />
-                <CitiesCard
-                  isPremium={false}
-                  url='#'
-                  imageSrc='markup/img/room.jpg'
-                  priceValue={80}
-                  isBookmark
-                  rating={4}
-                  cardName='Wood and stone place'
-                  cardType='Room'
-                />
-                <CitiesCard
-                  isPremium={false}
-                  url='#'
-                  imageSrc='markup/img/apartment-02.jpg'
-                  priceValue={132}
-                  isBookmark={false}
-                  rating={4}
-                  cardName='Canal View Prinsengracht'
-                  cardType='Apartment'
-                />
-                <CitiesCard
-                  isPremium
-                  url='#'
-                  imageSrc='markup/img/apartment-03.jpg'
-                  priceValue={180}
-                  isBookmark={false}
-                  rating={5}
-                  cardName='Nice, cozy, warm big bed apartment'
-                  cardType='Apartment'
-                />
-                <CitiesCard
-                  isPremium={false}
-                  url='#'
-                  imageSrc='markup/img/room.jpg'
-                  priceValue={80}
-                  isBookmark
-                  rating={4}
-                  cardName='Wood and stone place'
-                  cardType='Room'
-                />
-              </div>
+              <OffersList offers={offers} isFavoritePage={isFavoritePage}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
