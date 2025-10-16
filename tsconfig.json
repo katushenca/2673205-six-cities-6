@@ -1,5 +1,18 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@MainPage/*": ["pages/main-page/*"],
+      "@LoginPage/*": ["pages/login-page/*"],
+      "@OfferPage/*": ["pages/offer-page/*"],
+      "@NonFoundPage/*": ["pages/non-found-page/*"],
+      "@FavoritePage/*": ["pages/favorites-page/*"],
+      "@PrivateRoute/*": ["components/private-route/*"],
+      "@OffersCard/*": ["components/offers-card/*"],
+      "@OffersList/*": ["components/offers-list/*"],
+      "@PageTitle/*": ["components/page-title/*"],
+      "@ReviewForm/*": ["components/review-form/*"],
+    },
     "target": "ES2020",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",

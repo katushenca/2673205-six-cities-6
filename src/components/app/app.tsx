@@ -1,9 +1,9 @@
-import MainPage from '../../pages/main-page/main-page.tsx';
-import LoginPage from '../../pages/login-page/login-page.tsx';
-import OfferPage from '../../pages/offer-page/offer-page.tsx';
-import NonFoundPage from '../../pages/non-found-page/non-found-page.tsx';
-import PrivateRoute from '../private-route/private-route.tsx';
-import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
+import MainPage from '@MainPage/main-page.tsx';
+import LoginPage from '@LoginPage/login-page.tsx';
+import OfferPage from '@OfferPage//offer-page.tsx';
+import NonFoundPage from '@NonFoundPage/non-found-page.tsx';
+import PrivateRoute from '@PrivateRoute/private-route.tsx';
+import FavoritesPage from '@FavoritePage/favorites-page.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {HelmetProvider} from 'react-helmet-async';

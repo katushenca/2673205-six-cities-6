@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {ReviewFormSettings} from '../../const.ts';
-import Rating from './rating.tsx';
+import Rating from '@ReviewForm/rating.tsx';
 
 function ReviewForm() {
   const [formData, setFormData] = useState({

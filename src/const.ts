@@ -24,3 +24,10 @@ export const RatingOptions = [
   { value: 2, title: 'badly' },
   { value: 1, title: 'terribly' },
 ];
+
+export const PageTitles = [
+  {location: AppRoute.Main as string, title: 'Главная'},
+  {location: AppRoute.Login as string, title: 'Авторизация'},
+  {location: AppRoute.Offer as string, title: 'Предложение'},
+  {location: AppRoute.Favorites as string, title: 'Избранное'}
+];
