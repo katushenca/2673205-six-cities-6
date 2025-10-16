@@ -26,6 +26,7 @@ export default defineConfig({
       '@OffersList': path.resolve(__dirname, 'src/components/offers-list'),
       '@PageTitle': path.resolve(__dirname, 'src/components/page-title'),
       '@ReviewForm': path.resolve(__dirname, 'src/components/review-form'),
+      '@Header': path.resolve(__dirname, 'src/components/header'),
     }
   }
 });

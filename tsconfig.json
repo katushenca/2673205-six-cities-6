@@ -12,6 +12,7 @@
       "@OffersList/*": ["components/offers-list/*"],
       "@PageTitle/*": ["components/page-title/*"],
       "@ReviewForm/*": ["components/review-form/*"],
+      "@Header/*": ["components/header/*"],
     },
     "target": "ES2020",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
