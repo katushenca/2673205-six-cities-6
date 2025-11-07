@@ -13,6 +13,7 @@
       "@PageTitle/*": ["components/page-title/*"],
       "@ReviewForm/*": ["components/review-form/*"],
       "@Header/*": ["components/header/*"],
+      "@Map/*": ["components/map/*"],
     },
     "target": "ES2020",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
