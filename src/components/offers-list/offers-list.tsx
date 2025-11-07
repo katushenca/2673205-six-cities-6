@@ -5,7 +5,7 @@ import React from 'react';
 type OfferCardProps = {
   offers: OfferCard[];
   isFavoritePage: boolean;
-  setCurrentOfferId: (id: string | null) => void;
+  setCurrentOfferId?: (id: string | null) => void;
 }
 
 function OffersList({offers, isFavoritePage, setCurrentOfferId}: OfferCardProps) : JSX.Element {
@@ -13,12 +13,16 @@ function OffersList({offers, isFavoritePage, setCurrentOfferId}: OfferCardProps)
 
   const handleHover = (id: string) => {
     setActiveOfferId(id);
-    setCurrentOfferId(id);
+    if (setCurrentOfferId) {
+      setCurrentOfferId(id);
+    }
   };
 
   const handleLeave = () => {
     setActiveOfferId(null);
-    setCurrentOfferId(null);
+    if (setCurrentOfferId) {
+      setCurrentOfferId(null);
+    }
   };
 
   return (

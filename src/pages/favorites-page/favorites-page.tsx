@@ -41,7 +41,7 @@ function FavoritesPage({offers, isFavoritePage}: FavoritesPageProps) : JSX.Eleme
                       </div>
                     </div>
                     <div className="favorites__places">
-                      <OffersList offers={cityOffers} isFavoritePage={isFavoritePage} />
+                      <OffersList offers={cityOffers} isFavoritePage={isFavoritePage}/>
                     </div>
                   </li>
                 ))}
