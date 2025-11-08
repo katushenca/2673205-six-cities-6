@@ -27,6 +27,7 @@ export default defineConfig({
       '@PageTitle': path.resolve(__dirname, 'src/components/page-title'),
       '@ReviewForm': path.resolve(__dirname, 'src/components/review-form'),
       '@Header': path.resolve(__dirname, 'src/components/header'),
+      '@Map': path.resolve(__dirname, 'src/components/map'),
     }
   }
 });

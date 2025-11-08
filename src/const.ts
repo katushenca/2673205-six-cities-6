@@ -31,3 +31,7 @@ export const PageTitles = [
   {location: AppRoute.Offer as string, title: 'Предложение'},
   {location: AppRoute.Favorites as string, title: 'Избранное'}
 ];
+
+export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+
+export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';

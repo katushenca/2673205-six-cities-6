@@ -1,7 +1,9 @@
 import OffersList from '@OffersList/offers-list.tsx';
 import {OfferInfo} from '../../types/offerInfo.ts';
 import PageTitle from '@PageTitle/page-title.tsx';
+import Map from '@Map/map.tsx';
 import Header from '@Header/header.tsx';
+import {useState} from 'react';
 
 type MainPageProps = {
   offers : OfferInfo[];
@@ -9,6 +11,14 @@ type MainPageProps = {
 }
 
 function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
+  const [currentHoveredOfferId, setCurrentHoveredOfferId] = useState<string | null>(null);
+
+  const setCurrentOfferId = (id: string | null) => {
+    setCurrentHoveredOfferId(id);
+  };
+
+  const currentOffer = offers.find((offer) => offer.id === currentHoveredOfferId);
+
   return (
     <PageTitle>
       <div className="page page--gray page--main">
@@ -82,10 +92,10 @@ function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
                     </li>
                   </ul>
                 </form>
-                <OffersList offers={offers} isFavoritePage={isFavoritePage}/>
+                <OffersList offers={offers} isFavoritePage={isFavoritePage} setCurrentOfferId={setCurrentOfferId}/>
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map" />
+                <Map city={offers[0].city} currentOffer={currentOffer} allOffers={offers}/>
               </div>
             </div>
           </div>
