@@ -39,7 +39,7 @@ function Map({city, currentOffer, allOffers} : MapProps) : JSX.Element {
 
         marker
           .setIcon(
-            currentOffer !== undefined && offer.title === currentOffer.title
+            currentOffer !== undefined && offer.id === currentOffer.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -51,6 +51,15 @@ function Map({city, currentOffer, allOffers} : MapProps) : JSX.Element {
       };
     }
   }, [map, allOffers, currentOffer]);
+
+  useEffect(() => {
+    if (map) {
+      map.setView(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
+    }
+  }, [map, city.location.latitude, city.location.longitude, city.location.zoom]);
 
   return (
     <div

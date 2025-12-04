@@ -180,4 +180,53 @@ export const offers: OfferInfo[] = [
     bedrooms: 4,
     maxAdults: 8
   },
+
+  {
+    id: '118ef6e0-f299-4400-ae42-fc9a43056615',
+    title: 'The Joshua Tree House',
+    description: 'Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.',
+    type: 'apartment',
+    price: 216,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/11.jpg',
+    images: [
+      'https://14.design.htmlacademy.pro/static/hotel/16.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/19.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/4.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/17.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/2.jpg',
+      'https://14.design.htmlacademy.pro/static/hotel/13.jpg'
+    ],
+    city: {
+      name: 'Cologne',
+      location: {
+        latitude: 50.938361,
+        longitude: 6.959974,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 50.950361,
+      longitude: 6.961974,
+      zoom: 16
+    },
+    goods: [
+      'Breakfast',
+      'Air conditioning',
+      'Cable TV',
+      'Heating',
+      'Washing machine',
+      'Towels',
+      'Washer'
+    ],
+    host: {
+      isPro: true,
+      name: 'Angelina',
+      avatarUrl: 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
+    },
+    isBookmark: false,
+    isPremium: false,
+    rating: 1.2,
+    bedrooms: 3,
+    maxAdults: 8
+  },
 ];
