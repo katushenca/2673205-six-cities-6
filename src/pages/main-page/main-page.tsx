@@ -4,10 +4,18 @@ import PageTitle from '@PageTitle/page-title.tsx';
 import Map from '@Map/map.tsx';
 import Header from '@Header/header.tsx';
 import {useState} from 'react';
+import {CitiesList} from '../../components/cities-list/cities-list.tsx';
+import { useSelector } from 'react-redux';
+import {City} from '../../types/city.ts';
 
 type MainPageProps = {
   offers : OfferInfo[];
   isFavoritePage: boolean;
+}
+
+interface RootState {
+  offers: OfferInfo[];
+  city: City;
 }
 
 function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
@@ -18,6 +26,9 @@ function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
   };
 
   const currentOffer = offers.find((offer) => offer.id === currentHoveredOfferId);
+  const currentCityName = useSelector((state: RootState) => state.city.name);
+  const filteredOffers = offers.filter((offer) => offer.city.name === currentCityName);
+  const currentCity = useSelector((state: RootState) => state.city);
 
   return (
     <PageTitle>
@@ -26,46 +37,13 @@ function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
-            <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
-            </section>
+            <CitiesList />
           </div>
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{filteredOffers.length} places to stay in {currentCity.name}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -92,10 +70,10 @@ function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
                     </li>
                   </ul>
                 </form>
-                <OffersList offers={offers} isFavoritePage={isFavoritePage} setCurrentOfferId={setCurrentOfferId}/>
+                <OffersList offers={filteredOffers} isFavoritePage={isFavoritePage} setCurrentOfferId={setCurrentOfferId}/>
               </section>
               <div className="cities__right-section">
-                <Map city={offers[0].city} currentOffer={currentOffer} allOffers={offers}/>
+                <Map city={currentCity} currentOffer={currentOffer} allOffers={filteredOffers}/>
               </div>
             </div>
           </div>
