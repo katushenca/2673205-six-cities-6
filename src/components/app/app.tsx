@@ -7,20 +7,23 @@ import FavoritesPage from '@FavoritePage/favorites-page.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {HelmetProvider} from 'react-helmet-async';
-import {OfferInfo} from '../../types/offerInfo.ts';
+import {useAppSelector} from '../../hooks';
+import {Spinner} from '../spinner/spinner.tsx';
 
-type AppProps = {
-  offers: OfferInfo[];
-}
-
-function App({offers} : AppProps) : JSX.Element {
+function App() : JSX.Element {
+  const isOffersLoading = useAppSelector((state) => state.loading);
+  if (isOffersLoading) {
+    return (
+      <Spinner size={50} color={'#083d5e'}/>
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offers={offers} isFavoritePage={false}/>}
+            element={<MainPage isFavoritePage={false}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -28,7 +31,7 @@ function App({offers} : AppProps) : JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage offers={offers} authStatus={AuthorizationStatus.Auth}/>} // временно, чтобы проверить работу компонента комментария
+            element={<OfferPage authStatus={AuthorizationStatus.Auth}/>} // временно, чтобы проверить работу компонента комментария
           />
           <Route
             path={AppRoute.Favorites}
@@ -36,7 +39,7 @@ function App({offers} : AppProps) : JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth} //временно, чтобы проверить работу страницы
               >
-                <FavoritesPage offers={offers} isFavoritePage/>
+                <FavoritesPage isFavoritePage/>
               </PrivateRoute>
             }
           />

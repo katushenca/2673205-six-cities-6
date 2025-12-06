@@ -1,12 +1,9 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {OfferInfo} from '../../types/offerInfo.ts';
-import {City} from '../../types/city.ts';
 import {changeCity, fillOffers} from '../actions/action.ts';
+import {fetchOfferAction, fetchOffersAction} from '../actions/api-actions.ts';
+import {BaseState} from '../../types/baseState.ts';
 
-const initialState : {
-  offers: OfferInfo[];
-  city: City;
-} = {
+const initialState : BaseState = {
   offers: [],
   city: {
     name: 'Paris',
@@ -15,7 +12,9 @@ const initialState : {
       longitude: 2.351499,
       zoom: 13
     }
-  }
+  },
+  loading: false,
+  offer: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -25,6 +24,19 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
+    })
+    .addCase(fetchOffersAction.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(fetchOffersAction.fulfilled, (state, action) => {
+      state.offers = action.payload;
+      state.loading = false;
+    })
+    .addCase(fetchOffersAction.rejected, (state) => {
+      state.loading = false;
+    })
+    .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      state.offer = action.payload;
     });
 });
 

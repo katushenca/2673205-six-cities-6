@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {changeCity} from '../../store/actions/action.ts';
-import {CITIES} from '../../mocks/cities.ts';
+import {CITIES} from '../../const.ts';
 import {OfferInfo} from '../../types/offerInfo.ts';
 import {City} from '../../types/city.ts';
 
