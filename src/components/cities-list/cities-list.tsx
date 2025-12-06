@@ -3,13 +3,14 @@ import {changeCity} from '../../store/actions/action.ts';
 import {CITIES} from '../../const.ts';
 import {OfferInfo} from '../../types/offerInfo.ts';
 import {City} from '../../types/city.ts';
+import {memo} from 'react';
 
 interface RootState {
   offers: OfferInfo[];
   city: City;
 }
 
-export const CitiesList = () => {
+const CitiesList = memo(() => {
   const dispatch = useDispatch();
 
   const currentCityName = useSelector((state: RootState) => state.city.name);
@@ -43,4 +44,7 @@ export const CitiesList = () => {
       </ul>
     </section>
   );
-};
+});
+
+CitiesList.displayName = 'CitiesList';
+export { CitiesList };

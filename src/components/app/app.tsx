@@ -10,11 +10,14 @@ import {HelmetProvider} from 'react-helmet-async';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
 import {checkAuthAction} from '../../store/actions/api-actions.ts';
+import {useEffect} from 'react';
 
 function App() : JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.loading);
   const dispatch = useAppDispatch();
-  dispatch(checkAuthAction());
+  useEffect(() => {
+    dispatch(checkAuthAction());
+  }, [dispatch]);
   const isAuth = useAppSelector((state) => state.authStatus);
   if (isOffersLoading) {
     return (
@@ -35,7 +38,7 @@ function App() : JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage authStatus={isAuth}/>}
+            element={<OfferPage />}
           />
           <Route
             path={AppRoute.Favorites}

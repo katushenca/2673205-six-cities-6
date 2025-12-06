@@ -2,21 +2,18 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import ReviewForm from '@ReviewForm/review-form.tsx';
 import PageTitle from '@PageTitle/page-title.tsx';
-import Header from '@Header/header.tsx';
 import {fetchOfferAction, updateFavoriteAction} from '../../store/actions/api-actions.ts';
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
+import HeaderMemo from '@Header/header.tsx';
 
-type OfferPageProps = {
-  authStatus: AuthorizationStatus;
-}
 
-function OfferPage({authStatus} : OfferPageProps) : JSX.Element {
+function OfferPage() : JSX.Element {
   const navigate = useNavigate();
   const {id} = useParams();
   const offer = useAppSelector((state) => state.offer);
   const favorites = useAppSelector((state) => state.favorites);
-  const isFavoriteOffer = favorites.some((favorite) => favorite.id === id);
+  const isFavoriteOffer = useMemo(() => id ? favorites.some((fav) => fav.id === id) : false, [favorites, id]);
   const isLoading = useAppSelector((state) => state.loading);
   const isAuth = useAppSelector((state) => state.authStatus) === AuthorizationStatus.Auth;
   const dispatch = useAppDispatch();
@@ -49,7 +46,7 @@ function OfferPage({authStatus} : OfferPageProps) : JSX.Element {
   return (
     <PageTitle>
       <div className="page">
-        <Header />
+        <HeaderMemo />
         <main className="page__main page__main--offer">
           <section className="offer">
             <div className="offer__gallery-container container">
@@ -179,7 +176,7 @@ function OfferPage({authStatus} : OfferPageProps) : JSX.Element {
                       </div>
                     </li>
                   </ul>
-                  {authStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                  {isAuth && <ReviewForm />}
                 </section>
               </div>
             </div>

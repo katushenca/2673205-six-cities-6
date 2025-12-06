@@ -1,11 +1,11 @@
 import {OfferCard} from '../../types/offerCard.ts';
-import OffersList from '@OffersList/offers-list.tsx';
-import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const.ts';
 import PageTitle from '@PageTitle/page-title.tsx';
-import Header from '@Header/header.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFavoritesAction} from '../../store/actions/api-actions.ts';
+import HeaderMemo from '@Header/header.tsx';
+import {useMemo} from 'react';
+import OffersListMemo from '@OffersList/offers-list.tsx';
+import FooterMemo from '../../components/footer/footer.tsx';
 
 type FavoritesPageProps = {
   isFavoritePage: boolean;
@@ -15,19 +15,19 @@ function FavoritesPage({isFavoritePage}: FavoritesPageProps) : JSX.Element {
   const dispatch = useAppDispatch();
   dispatch(fetchFavoritesAction);
   const favoriteOffers = useAppSelector((state) => state.favorites);
-  const offersByCity = favoriteOffers.reduce((acc, offer) => {
+  const offersByCity = useMemo(() => favoriteOffers.reduce((acc, offer) => {
     const cityName = offer.city.name;
     if (!acc[cityName]) {
       acc[cityName] = [];
     }
     acc[cityName].push(offer);
     return acc;
-  }, {} as Record<string, OfferCard[]>);
+  }, {} as Record<string, OfferCard[]>), [favoriteOffers]);
 
   return (
     <PageTitle>
       <div className="page">
-        <Header />
+        <HeaderMemo />
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">
@@ -43,7 +43,7 @@ function FavoritesPage({isFavoritePage}: FavoritesPageProps) : JSX.Element {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      <OffersList offers={cityOffers} isFavoritePage={isFavoritePage}/>
+                      <OffersListMemo offers={cityOffers} isFavoritePage={isFavoritePage}/>
                     </div>
                   </li>
                 ))}
@@ -51,17 +51,7 @@ function FavoritesPage({isFavoritePage}: FavoritesPageProps) : JSX.Element {
             </section>
           </div>
         </main>
-        <footer className="footer container">
-          <Link className="footer__logo-link" to={AppRoute.Main}>
-            <img
-              className="footer__logo"
-              src="markup/img/logo.svg"
-              alt="6 cities logo"
-              width={64}
-              height={33}
-            />
-          </Link>
-        </footer>
+        <FooterMemo />
       </div>
     </PageTitle>
   );

@@ -49,6 +49,8 @@ export const AUTH_TOKEN_KEY = 'six-cities-token';
 
 export const BACKEND_URL = 'https://14.design.htmlacademy.pro/six-cities';
 
+export const PASSWORD_PATTERN = /(?=.*[a-zA-Z])(?=.*\d)/;
+
 export const CITIES: City[] = [
   {
     name: 'Paris',

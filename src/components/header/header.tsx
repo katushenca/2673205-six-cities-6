@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/actions/api-actions.ts';
+import {memo} from 'react';
 
 type HeaderProps = {
   hideHeaderNav?: boolean;
@@ -72,4 +73,6 @@ function Header({ hideHeaderNav }: HeaderProps) : JSX.Element {
   );
 }
 
-export default Header;
+const HeaderMemo = memo(Header);
+HeaderMemo.displayName = 'Header';
+export default HeaderMemo;
