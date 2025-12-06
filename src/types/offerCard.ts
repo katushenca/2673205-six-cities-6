@@ -3,7 +3,7 @@ export type OfferCard = {
   isPremium: boolean;
   previewImage: string;
   price: number;
-  isBookmark: boolean;
+  isFavorite: boolean;
   rating: number;
   title: string;
   type: string;

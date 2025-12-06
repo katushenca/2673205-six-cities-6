@@ -1,5 +1,8 @@
 import {OfferCard} from '../../types/offerCard.ts';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {updateFavoriteAction} from '../../store/actions/api-actions.ts';
 
 type OfferCardProps = {
   offerCard : OfferCard;
@@ -9,6 +12,20 @@ type OfferCardProps = {
 }
 
 function OffersCard({offerCard, onHover, onLeave, isFavoritePage}: OfferCardProps) : JSX.Element {
+  const navigate = useNavigate();
+  const favorites = useAppSelector((state) => state.favorites);
+  const isFavoriteOffer = favorites.some((favorite) => favorite.id === offerCard.id);
+  const isAuth = useAppSelector((state) => state.authStatus) === AuthorizationStatus.Auth;
+  const dispatch = useAppDispatch();
+  const handleToggleBookmark = () => {
+
+    if (offerCard) {
+      dispatch(updateFavoriteAction({
+        offerId: offerCard.id,
+        isFavorite: !offerCard.isFavorite
+      }));
+    }
+  };
   const percent = Math.min(100, Math.max(0, (offerCard.rating / 5) * 100));
   const cardPage = isFavoritePage ? 'favorites' : 'cities';
   const imageSize = isFavoritePage ? {width: 150, height: 110} : {width: 260, height: 200};
@@ -39,8 +56,11 @@ function OffersCard({offerCard, onHover, onLeave, isFavoritePage}: OfferCardProp
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${offerCard.isBookmark ? 'place-card__bookmark-button--active' : null} button`}
+            className={`place-card__bookmark-button ${isFavoriteOffer ? 'place-card__bookmark-button--active' : null} button`}
             type="button"
+            onClick={isAuth ? handleToggleBookmark : () => {
+              navigate(AppRoute.Login);
+            }}
           >
             <svg
               className="place-card__bookmark-icon"
@@ -49,7 +69,7 @@ function OffersCard({offerCard, onHover, onLeave, isFavoritePage}: OfferCardProp
             >
               <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">{offerCard.isBookmark ? 'In' : 'To'} bookmarks</span>
+            <span className="visually-hidden">{isFavoriteOffer ? 'In' : 'To'} bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
