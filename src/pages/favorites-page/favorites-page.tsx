@@ -4,15 +4,17 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import PageTitle from '@PageTitle/page-title.tsx';
 import Header from '@Header/header.tsx';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFavoritesAction} from '../../store/actions/api-actions.ts';
 
 type FavoritesPageProps = {
   isFavoritePage: boolean;
 }
 
 function FavoritesPage({isFavoritePage}: FavoritesPageProps) : JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const favoriteOffers = offers.filter((offer) => offer.isBookmark);
+  const dispatch = useAppDispatch();
+  dispatch(fetchFavoritesAction);
+  const favoriteOffers = useAppSelector((state) => state.favorites);
   const offersByCity = favoriteOffers.reduce((acc, offer) => {
     const cityName = offer.city.name;
     if (!acc[cityName]) {

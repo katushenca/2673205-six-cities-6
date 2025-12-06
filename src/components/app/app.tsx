@@ -5,13 +5,17 @@ import NonFoundPage from '@NonFoundPage/non-found-page.tsx';
 import PrivateRoute from '@PrivateRoute/private-route.tsx';
 import FavoritesPage from '@FavoritePage/favorites-page.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {AppRoute} from '../../const.ts';
 import {HelmetProvider} from 'react-helmet-async';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
+import {checkAuthAction} from '../../store/actions/api-actions.ts';
 
 function App() : JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.loading);
+  const dispatch = useAppDispatch();
+  dispatch(checkAuthAction());
+  const isAuth = useAppSelector((state) => state.authStatus);
   if (isOffersLoading) {
     return (
       <Spinner size={50} color={'#083d5e'}/>
@@ -31,13 +35,13 @@ function App() : JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage authStatus={AuthorizationStatus.Auth}/>} // временно, чтобы проверить работу компонента комментария
+            element={<OfferPage authStatus={isAuth}/>}
           />
           <Route
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth} //временно, чтобы проверить работу страницы
+                authorizationStatus={isAuth}
               >
                 <FavoritesPage isFavoritePage/>
               </PrivateRoute>

@@ -9,7 +9,10 @@ export enum AppRoute {
 }
 
 export enum ApiHandlers {
-  Offers = '/offers'
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Favorites = '/favorite',
 }
 
 export enum AuthorizationStatus {
@@ -42,6 +45,10 @@ export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensi
 
 export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
+export const AUTH_TOKEN_KEY = 'six-cities-token';
+
+export const BACKEND_URL = 'https://14.design.htmlacademy.pro/six-cities';
+
 export const CITIES: City[] = [
   {
     name: 'Paris',
@@ -68,3 +75,5 @@ export const CITIES: City[] = [
     location: { latitude: 51.225402, longitude: 6.776314, zoom: 13 }
   }
 ];
+
+export const XTokenHeader = 'X-Token';
