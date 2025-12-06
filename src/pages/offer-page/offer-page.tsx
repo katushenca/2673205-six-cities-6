@@ -1,19 +1,39 @@
 import {useParams} from 'react-router-dom';
-import {OfferInfo} from '../../types/offerInfo.ts';
 import {AuthorizationStatus} from '../../const.ts';
 import ReviewForm from '@ReviewForm/review-form.tsx';
 import PageTitle from '@PageTitle/page-title.tsx';
 import Header from '@Header/header.tsx';
+import {fetchOfferAction} from '../../store/actions/api-actions.ts';
+import {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
 type OfferPageProps = {
-  offers: OfferInfo[];
   authStatus: AuthorizationStatus;
 }
 
-function OfferPage({offers, authStatus} : OfferPageProps) : JSX.Element {
+function OfferPage({authStatus} : OfferPageProps) : JSX.Element {
   const {id} = useParams();
-  const offer = offers.find((of) => of.id === id);
-  const percent = Math.min(100, Math.max(0, (offer!.rating / 5) * 100));
+
+  const offer = useAppSelector((state) => state.offer);
+  const isLoading = useAppSelector((state) => state.loading);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferAction(id));
+    }
+    return () => {
+    };
+  }, [dispatch, id]);
+
+  if (isLoading) {
+    return <div>Loading offer...</div>;
+  }
+
+  if (!offer) {
+    return <div>No offer found</div>;
+  }
+  const percent = Math.min(100, Math.max(0, (offer.rating / 5) * 100));
   return (
     <PageTitle>
       <div className="page">

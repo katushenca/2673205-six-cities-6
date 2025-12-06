@@ -1,17 +1,17 @@
 import {OfferCard} from '../../types/offerCard.ts';
 import OffersList from '@OffersList/offers-list.tsx';
-import {OfferInfo} from '../../types/offerInfo.ts';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import PageTitle from '@PageTitle/page-title.tsx';
 import Header from '@Header/header.tsx';
+import {useAppSelector} from '../../hooks';
 
 type FavoritesPageProps = {
-  offers : OfferInfo[];
   isFavoritePage: boolean;
 }
 
-function FavoritesPage({offers, isFavoritePage}: FavoritesPageProps) : JSX.Element {
+function FavoritesPage({isFavoritePage}: FavoritesPageProps) : JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   const favoriteOffers = offers.filter((offer) => offer.isBookmark);
   const offersByCity = favoriteOffers.reduce((acc, offer) => {
     const cityName = offer.city.name;

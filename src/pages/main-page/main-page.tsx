@@ -1,34 +1,27 @@
 import OffersList from '@OffersList/offers-list.tsx';
-import {OfferInfo} from '../../types/offerInfo.ts';
 import PageTitle from '@PageTitle/page-title.tsx';
 import Map from '@Map/map.tsx';
 import Header from '@Header/header.tsx';
 import {useState} from 'react';
 import {CitiesList} from '../../components/cities-list/cities-list.tsx';
 import { useSelector } from 'react-redux';
-import {City} from '../../types/city.ts';
+import {BaseState} from '../../types/baseState.ts';
+import {useAppSelector} from '../../hooks';
 
 type MainPageProps = {
-  offers : OfferInfo[];
   isFavoritePage: boolean;
 }
-
-interface RootState {
-  offers: OfferInfo[];
-  city: City;
-}
-
-function MainPage({offers, isFavoritePage} : MainPageProps) : JSX.Element {
+function MainPage({isFavoritePage} : MainPageProps) : JSX.Element {
   const [currentHoveredOfferId, setCurrentHoveredOfferId] = useState<string | null>(null);
-
+  const offers = useAppSelector((state) => state.offers);
   const setCurrentOfferId = (id: string | null) => {
     setCurrentHoveredOfferId(id);
   };
 
   const currentOffer = offers.find((offer) => offer.id === currentHoveredOfferId);
-  const currentCityName = useSelector((state: RootState) => state.city.name);
+  const currentCityName = useSelector((state: BaseState) => state.city.name);
   const filteredOffers = offers.filter((offer) => offer.city.name === currentCityName);
-  const currentCity = useSelector((state: RootState) => state.city);
+  const currentCity = useSelector((state: BaseState) => state.city);
 
   return (
     <PageTitle>
