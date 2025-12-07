@@ -6,16 +6,21 @@ import {fetchOfferAction, updateFavoriteAction} from '../../store/actions/api-ac
 import {useEffect, useMemo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import HeaderMemo from '@Header/header.tsx';
+import {
+  makeSelectIsFavoriteOffer, selectAuthStatus,
+  selectIsLoading,
+  selectOffer
+} from '../../store/selectors/selectors.ts';
 
 
 function OfferPage() : JSX.Element {
   const navigate = useNavigate();
   const {id} = useParams();
-  const offer = useAppSelector((state) => state.offer);
-  const favorites = useAppSelector((state) => state.favorites);
-  const isFavoriteOffer = useMemo(() => id ? favorites.some((fav) => fav.id === id) : false, [favorites, id]);
-  const isLoading = useAppSelector((state) => state.loading);
-  const isAuth = useAppSelector((state) => state.authStatus) === AuthorizationStatus.Auth;
+  const offer = useAppSelector(selectOffer);
+  const selectIsFavorite = useMemo(makeSelectIsFavoriteOffer, []);
+  const isFavoriteOffer = useAppSelector((state) => selectIsFavorite(state, id));
+  const isLoading = useAppSelector(selectIsLoading);
+  const isAuth = useAppSelector(selectAuthStatus) === AuthorizationStatus.Auth;
   const dispatch = useAppDispatch();
   const handleToggleBookmark = () => {
 

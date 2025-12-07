@@ -11,14 +11,15 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
 import {checkAuthAction} from '../../store/actions/api-actions.ts';
 import {useEffect} from 'react';
+import {selectAuthStatus, selectIsLoading} from '../../store/selectors/selectors.ts';
 
 function App() : JSX.Element {
-  const isOffersLoading = useAppSelector((state) => state.loading);
+  const isOffersLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(checkAuthAction());
   }, [dispatch]);
-  const isAuth = useAppSelector((state) => state.authStatus);
+  const isAuth = useAppSelector(selectAuthStatus);
   if (isOffersLoading) {
     return (
       <Spinner size={50} color={'#083d5e'}/>

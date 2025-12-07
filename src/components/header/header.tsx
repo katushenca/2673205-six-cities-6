@@ -3,6 +3,7 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/actions/api-actions.ts';
 import {memo} from 'react';
+import {selectAuthStatus, selectAuthUser, selectFavorites} from '../../store/selectors/selectors.ts';
 
 type HeaderProps = {
   hideHeaderNav?: boolean;
@@ -12,9 +13,9 @@ function Header({ hideHeaderNav }: HeaderProps) : JSX.Element {
   const handleLogout = () => {
     dispatch(logoutAction());
   };
-  const authStatus = useAppSelector((state) => state.authStatus);
-  const authData = useAppSelector((state) => state.authUser);
-  const favoritesCount = useAppSelector((state) => state.favorites).length;
+  const authStatus = useAppSelector(selectAuthStatus);
+  const authData = useAppSelector(selectAuthUser);
+  const favoritesCount = useAppSelector(selectFavorites).length;
   const isAuth = authStatus === AuthorizationStatus.Auth;
 
   return (

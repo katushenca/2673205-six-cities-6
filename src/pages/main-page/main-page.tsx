@@ -2,26 +2,21 @@ import PageTitle from '@PageTitle/page-title.tsx';
 import Map from '@Map/map.tsx';
 import {useCallback, useMemo, useState} from 'react';
 import {CitiesList} from '../../components/cities-list/cities-list.tsx';
-import { useSelector } from 'react-redux';
-import {BaseState} from '../../types/baseState.ts';
 import {useAppSelector} from '../../hooks';
 import HeaderMemo from '@Header/header.tsx';
 import OffersListMemo from '@OffersList/offers-list.tsx';
+import {selectCurrentCity, selectFilteredOffers, selectOffers} from '../../store/selectors/selectors.ts';
 
 type MainPageProps = {
   isFavoritePage: boolean;
 }
 function MainPage({isFavoritePage} : MainPageProps) : JSX.Element {
   const [currentHoveredOfferId, setCurrentHoveredOfferId] = useState<string | null>(null);
-  const offers = useAppSelector((state) => state.offers);
-  const setCurrentOfferId = useCallback((id: string | null) => {
-    setCurrentHoveredOfferId(id);
-  }, []);
-
-  const currentCity = useSelector((state: BaseState) => state.city);
-  const currentCityName = currentCity.name;
+  const offers = useAppSelector(selectOffers);
+  const setCurrentOfferId = useCallback((id: string | null) => setCurrentHoveredOfferId(id), []);
+  const currentCity = useAppSelector(selectCurrentCity);
+  const filteredOffers = useAppSelector(selectFilteredOffers);
   const currentOffer = useMemo(() => offers.find((offer) => offer.id === currentHoveredOfferId) ?? undefined, [offers, currentHoveredOfferId]);
-  const filteredOffers = useMemo(() => offers.filter((offer) => offer.city.name === currentCityName), [offers, currentCityName]);
 
   return (
     <PageTitle>

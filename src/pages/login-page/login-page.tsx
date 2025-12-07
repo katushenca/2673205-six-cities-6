@@ -5,11 +5,12 @@ import {AppRoute, AuthorizationStatus, PASSWORD_PATTERN} from '../../const.ts';
 import {useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/actions/api-actions.ts';
 import HeaderMemo from '@Header/header.tsx';
+import {selectAuthStatus} from '../../store/selectors/selectors.ts';
 
 function LoginPage() : JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(selectAuthStatus);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validationError, setValidationError] = useState('');
