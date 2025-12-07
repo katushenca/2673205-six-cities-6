@@ -1,18 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import {changeCity} from '../../store/actions/action.ts';
+import {changeCity} from '../../store/slices/offers-slice.ts';
 import {CITIES} from '../../const.ts';
-import {OfferInfo} from '../../types/offerInfo.ts';
-import {City} from '../../types/city.ts';
-
-interface RootState {
-  offers: OfferInfo[];
-  city: City;
-}
-
-export const CitiesList = () => {
+import {memo} from 'react';
+import {selectCurrentCity} from '../../store/selectors/selectors.ts';
+const CitiesList = memo(() => {
   const dispatch = useDispatch();
 
-  const currentCityName = useSelector((state: RootState) => state.city.name);
+  const currentCityName = useSelector(selectCurrentCity);
 
   const handleCityClick = (cityName: string) => {
     const city = CITIES.find((c) => c.name === cityName);
@@ -28,7 +22,7 @@ export const CitiesList = () => {
           <li className="locations__item" key={city.name}>
             <a
               className={`locations__item-link tabs__item ${
-                city.name === currentCityName ? 'tabs__item--active' : ''
+                city.name === currentCityName.name ? 'tabs__item--active' : ''
               }`}
               href="#"
               onClick={(e) => {
@@ -43,4 +37,7 @@ export const CitiesList = () => {
       </ul>
     </section>
   );
-};
+});
+
+CitiesList.displayName = 'CitiesList';
+export { CitiesList };

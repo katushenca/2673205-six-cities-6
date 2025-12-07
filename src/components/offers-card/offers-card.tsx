@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {updateFavoriteAction} from '../../store/actions/api-actions.ts';
+import {selectAuthStatus, selectFavorites} from '../../store/selectors/selectors.ts';
 
 type OfferCardProps = {
   offerCard : OfferCard;
@@ -13,9 +14,9 @@ type OfferCardProps = {
 
 function OffersCard({offerCard, onHover, onLeave, isFavoritePage}: OfferCardProps) : JSX.Element {
   const navigate = useNavigate();
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector(selectFavorites);
   const isFavoriteOffer = favorites.some((favorite) => favorite.id === offerCard.id);
-  const isAuth = useAppSelector((state) => state.authStatus) === AuthorizationStatus.Auth;
+  const isAuth = useAppSelector(selectAuthStatus) === AuthorizationStatus.Auth;
   const dispatch = useAppDispatch();
   const handleToggleBookmark = () => {
 

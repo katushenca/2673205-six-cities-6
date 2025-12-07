@@ -1,15 +1,16 @@
 import PageTitle from '@PageTitle/page-title.tsx';
-import Header from '@Header/header.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {FormEvent, useEffect, useMemo, useState} from 'react';
-import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {AppRoute, AuthorizationStatus, PASSWORD_PATTERN} from '../../const.ts';
 import {useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/actions/api-actions.ts';
+import HeaderMemo from '@Header/header.tsx';
+import {selectAuthStatus} from '../../store/selectors/selectors.ts';
 
 function LoginPage() : JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(selectAuthStatus);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validationError, setValidationError] = useState('');
@@ -23,7 +24,7 @@ function LoginPage() : JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    const passwordHasLetterAndNumber = /(?=.*[a-zA-Z])(?=.*\d)/.test(password);
+    const passwordHasLetterAndNumber = PASSWORD_PATTERN.test(password);
 
     if (!email || !password.trim()) {
       setValidationError('Введите email и пароль.');
@@ -47,7 +48,7 @@ function LoginPage() : JSX.Element {
   return (
     <PageTitle>
       <div className="page page--gray page--login">
-        <Header hideHeaderNav />
+        <HeaderMemo hideHeaderNav />
 
         <main className="page__main page__main--login">
           <div className="page__login-container container">

@@ -1,14 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reducer from './reducers/reducer.ts';
-import {createAPI} from '../api/api.ts';
+import { createAPI } from '../api/api.ts';
+import offersReducer from './slices/offers-slice';
+import favoriteReducer from './slices/favorite-slice';
+import authReducer from './slices/auth-slice';
+import loadingReducer from './slices/loading-slice';
 
 export const api = createAPI();
+
 export const store = configureStore({
-  reducer,
+  reducer: {
+    offers: offersReducer,
+    favorites: favoriteReducer,
+    auth: authReducer,
+    loading: loadingReducer
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
         extraArgument: api,
-      }
-    })
+      },
+    }),
 });
