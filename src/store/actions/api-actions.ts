@@ -7,6 +7,7 @@ import {LoginData} from '../../types/LoginData.ts';
 import {dropToken, saveToken} from '../../api/token.ts';
 import {TState} from '../../types/baseState.ts';
 import {setIsAuthorized} from '../slices/auth-slice.ts';
+import {Review} from '../../types/review.ts';
 
 type TExtra = {
   extra: AxiosInstance;
@@ -76,6 +77,22 @@ export const updateFavoriteAction = createAsyncThunk<OfferInfo, { offerId: strin
       dispatch(fetchOfferAction(offerId));
     }
     dispatch(fetchOffersAction);
+    return data;
+  }
+);
+
+export const fetchCommentsAction = createAsyncThunk<Review[], string, TExtra>(
+  'comments/fetchComments',
+  async (offerId, {extra: api}) => {
+    const {data} = await api.get<Review[]>(`${ApiHandlers.Comments}/${offerId}`);
+    return data;
+  }
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<OfferInfo[], string, TExtra>(
+  'nearby/fetchNearbyOffers',
+  async (offerId, {extra: api}) => {
+    const {data} = await api.get<OfferInfo[]>(`${ApiHandlers.Offers}/${offerId}/nearby`);
     return data;
   }
 );

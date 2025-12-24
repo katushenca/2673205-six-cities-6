@@ -25,7 +25,7 @@ function ReviewForm() {
   }
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -49,7 +49,6 @@ function ReviewForm() {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={isDisabled}
-          onSubmit={handleSubmit}
         >
           Submit
         </button>

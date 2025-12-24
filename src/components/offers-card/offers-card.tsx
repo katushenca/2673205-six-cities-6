@@ -10,9 +10,10 @@ type OfferCardProps = {
   onHover: (id: string) => void;
   onLeave: () => void;
   isFavoritePage: boolean;
+  cardPageName?: 'cities' | 'favorites' | 'near-places';
 }
 
-function OffersCard({offerCard, onHover, onLeave, isFavoritePage}: OfferCardProps) : JSX.Element {
+function OffersCard({offerCard, onHover, onLeave, isFavoritePage, cardPageName}: OfferCardProps) : JSX.Element {
   const navigate = useNavigate();
   const favorites = useAppSelector(selectFavorites);
   const isFavoriteOffer = favorites.some((favorite) => favorite.id === offerCard.id);
@@ -28,8 +29,11 @@ function OffersCard({offerCard, onHover, onLeave, isFavoritePage}: OfferCardProp
     }
   };
   const percent = Math.min(100, Math.max(0, (offerCard.rating / 5) * 100));
-  const cardPage = isFavoritePage ? 'favorites' : 'cities';
-  const imageSize = isFavoritePage ? {width: 150, height: 110} : {width: 260, height: 200};
+  const cardPage = cardPageName ?? (isFavoritePage ? 'favorites' : 'cities');
+  const imageSize =
+    cardPage === 'favorites'
+      ? {width: 150, height: 110}
+      : {width: 260, height: 200};
   return (
     <article className={`${cardPage}__card place-card`}
       onMouseEnter={() => onHover(offerCard.id)}
