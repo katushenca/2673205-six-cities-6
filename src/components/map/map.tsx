@@ -1,16 +1,17 @@
 import leaflet, {layerGroup, Marker} from 'leaflet';
-import {City} from '../../types/city.ts';
-import {OfferInfo} from '../../types/offerInfo.ts';
+import {City} from '../../types/city';
+import {OfferInfo} from '../../types/offerInfo';
 import {useEffect, useRef} from 'react';
-import useMap from '../../hooks/useMap.tsx';
+import useMap from '../../hooks/useMap';
 import 'leaflet/dist/leaflet.css';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
+import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const';
 
 type MapProps = {
   city: City;
   currentOffer: OfferInfo | undefined;
   allOffers: OfferInfo[];
-}
+  className?: string;
+};
 
 const defaultCustomIcon = leaflet.icon({
   iconUrl: URL_MARKER_DEFAULT,
@@ -24,13 +25,20 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-function Map({city, currentOffer, allOffers} : MapProps) : JSX.Element {
-  const mapRef = useRef(null);
+function Map({city, currentOffer, allOffers, className}: MapProps): JSX.Element {
+  const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {
+      requestAnimationFrame(() => map.invalidateSize());
+    }
+  }, [map]);
+
+  useEffect(() => {
+    if (map) {
       const markerLayer = layerGroup().addTo(map);
+
       allOffers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -38,11 +46,7 @@ function Map({city, currentOffer, allOffers} : MapProps) : JSX.Element {
         });
 
         marker
-          .setIcon(
-            currentOffer !== undefined && offer.id === currentOffer.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
+          .setIcon(currentOffer && offer.id === currentOffer.id ? currentCustomIcon : defaultCustomIcon)
           .addTo(markerLayer);
       });
 
@@ -59,16 +63,9 @@ function Map({city, currentOffer, allOffers} : MapProps) : JSX.Element {
         city.location.zoom
       );
     }
-  }, [map, city.location.latitude, city.location.longitude, city.location.zoom]);
+  }, [map, city]);
 
-  return (
-    <div
-      className="cities__map map"
-      style={{height: '100%', width: '100%' }}
-      ref={mapRef}
-    >
-    </div>
-  );
+  return <div className={className ?? 'cities__map map'} ref={mapRef} />;
 }
 
 export default Map;

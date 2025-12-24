@@ -13,6 +13,7 @@ export enum ApiHandlers {
   Login = '/login',
   Logout = '/logout',
   Favorites = '/favorite',
+  Comments = '/comments',
 }
 
 export enum AuthorizationStatus {

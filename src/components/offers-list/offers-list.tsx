@@ -6,9 +6,11 @@ type OfferCardProps = {
   offers: OfferCard[];
   isFavoritePage: boolean;
   setCurrentOfferId?: (id: string | null) => void;
+  listClassName?: string;
+  cardPage?: 'cities' | 'favorites' | 'near-places';
 }
 
-function OffersList({offers, isFavoritePage, setCurrentOfferId}: OfferCardProps) : JSX.Element {
+function OffersList({offers, isFavoritePage, setCurrentOfferId, listClassName, cardPage}: OfferCardProps) : JSX.Element {
 
   const handleHover = (id: string) => {
     if (setCurrentOfferId) {
@@ -23,17 +25,19 @@ function OffersList({offers, isFavoritePage, setCurrentOfferId}: OfferCardProps)
   };
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={listClassName ?? 'cities__places-list places__list tabs__content'}>
       {offers.map((offer) => (
         <OffersCard
           offerCard={offer}
           key={offer.id}
-          onHover={() => handleHover(offer.id)}
-          onLeave={() => handleLeave()}
+          onHover={handleHover}
+          onLeave={handleLeave}
           isFavoritePage={isFavoritePage}
+          cardPageName={cardPage}
         />
       ))}
-    </div>);
+    </div>
+  );
 }
 
 const OffersListMemo = memo(OffersList);

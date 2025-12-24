@@ -9,6 +9,8 @@ export const selectAuthStatus = (state: TState) => state.auth.authStatus;
 export const selectAuthUser = (state: TState) => state.auth.authUser;
 export const selectCurrentCity = (state: TState) => state.offers.city;
 export const selectFavorites = (state: TState) => state.favorites.favorites;
+export const selectComments = (state: TState) => state.comments.comments;
+export const selectNearbyOffers = (state: TState) => state.nearby.nearbyOffers;
 
 export const selectFilteredOffers = createSelector(
   [selectOffers, selectCurrentCity],
