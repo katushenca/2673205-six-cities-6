@@ -7,6 +7,7 @@ interface OffersState {
   offers: OfferInfo[];
   offer: OfferInfo | null;
   city: City;
+  notFound: boolean;
 }
 
 const initialState: OffersState = {
@@ -19,7 +20,8 @@ const initialState: OffersState = {
       longitude: 2.351499,
       zoom: 13
     }
-  }
+  },
+  notFound: false,
 };
 
 export const offersSlice = createSlice({
@@ -38,9 +40,19 @@ export const offersSlice = createSlice({
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
       })
+      .addCase(fetchOfferAction.pending, (state) => {
+        state.offer = null;
+        state.notFound = false;
+      })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offer = action.payload;
+        state.notFound = false;
       })
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.offer = null;
+        state.notFound = true;
+      })
+
       .addCase(updateFavoriteAction.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
         const offerIndex = state.offers.findIndex((o) => o.id === updatedOffer.id);

@@ -9,13 +9,14 @@ import HeaderMemo from '@Header/header.tsx';
 import {
   makeSelectIsFavoriteOffer, selectAuthStatus,
   selectIsLoading, selectNearbyOffers,
-  selectOffer
+  selectOffer, selectOfferNotFound
 } from '../../store/selectors/selectors.ts';
 import {fetchCommentsAction} from '../../store/actions/api-actions';
 import {selectComments} from '../../store/selectors/selectors';
 import ReviewsList from '../../components/reviews/reviews-list.tsx';
 import OffersListMemo from '@OffersList/offers-list.tsx';
 import Map from '../../components/map/map.tsx';
+
 
 function OfferPage() : JSX.Element {
   const navigate = useNavigate();
@@ -50,6 +51,14 @@ function OfferPage() : JSX.Element {
     return () => {
     };
   }, [dispatch, id]);
+
+  const offerNotFound = useAppSelector(selectOfferNotFound);
+
+  useEffect(() => {
+    if (offerNotFound) {
+      navigate(AppRoute.Unknown);
+    }
+  }, [offerNotFound, navigate]);
 
   if (isLoading) {
     return <div>Loading offer...</div>;
