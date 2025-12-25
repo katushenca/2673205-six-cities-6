@@ -1,4 +1,5 @@
 import {City} from './types/city.ts';
+import {SortType} from './types/sortType.ts';
 
 export enum AppRoute {
   Main = '/',
@@ -80,3 +81,10 @@ export const CITIES: City[] = [
 ];
 
 export const XTokenHeader = 'X-Token';
+
+export const SortTypeNames: Record<SortType, string> = {
+  [SortType.Popular]: 'Popular',
+  [SortType.PriceLowToHigh]: 'Price: low to high',
+  [SortType.PriceHighToLow]: 'Price: high to low',
+  [SortType.TopRatedFirst]: 'Top rated first',
+};
