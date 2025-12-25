@@ -11,6 +11,7 @@ export const selectCurrentCity = (state: TState) => state.offers.city;
 export const selectFavorites = (state: TState) => state.favorites.favorites;
 export const selectComments = (state: TState) => state.comments.comments;
 export const selectNearbyOffers = (state: TState) => state.nearby.nearbyOffers;
+export const selectOfferNotFound = (state: TState) => state.offers.notFound;
 
 export const selectFilteredOffers = createSelector(
   [selectOffers, selectCurrentCity],

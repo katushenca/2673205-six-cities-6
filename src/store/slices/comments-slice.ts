@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {Review} from '../../types/review';
-import {fetchCommentsAction, fetchOfferAction} from '../actions/api-actions';
+import {fetchCommentsAction, fetchOfferAction, postCommentAction} from '../actions/api-actions';
 
 type CommentsState = {
   comments: Review[];
@@ -20,6 +20,9 @@ export const commentsSlice = createSlice({
         state.comments = [];
       })
       .addCase(fetchCommentsAction.fulfilled, (state, action) => {
+        state.comments = action.payload;
+      })
+      .addCase(postCommentAction.fulfilled, (state, action) => {
         state.comments = action.payload;
       });
   },
