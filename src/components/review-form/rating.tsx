@@ -4,9 +4,10 @@ import {RatingOptions} from '../../const';
 type RatingProps = {
   rating: number;
   onChange: (value: number) => void;
+  disabled?: boolean;
 }
 
-export default function Rating({rating, onChange}: RatingProps) {
+export default function Rating({rating, onChange, disabled = false}: RatingProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {RatingOptions.map((option) => (
@@ -19,6 +20,7 @@ export default function Rating({rating, onChange}: RatingProps) {
             value={option.value}
             checked={rating === option.value}
             onChange={() => onChange(option.value)}
+            disabled={disabled}
           />
           <label
             htmlFor={`${option.value}-stars`}

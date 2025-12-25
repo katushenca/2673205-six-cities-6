@@ -16,6 +16,7 @@ import {selectComments} from '../../store/selectors/selectors';
 import ReviewsList from '../../components/reviews/reviews-list.tsx';
 import OffersListMemo from '@OffersList/offers-list.tsx';
 import Map from '../../components/map/map.tsx';
+import ServerError from '../../components/server-error/server-error.tsx';
 
 
 function OfferPage() : JSX.Element {
@@ -37,7 +38,7 @@ function OfferPage() : JSX.Element {
     if (offer) {
       dispatch(updateFavoriteAction({
         offerId: offer.id,
-        isFavorite: !offer.isFavorite
+        isFavorite: !isFavoriteOffer
       }));
     }
   };
@@ -67,16 +68,17 @@ function OfferPage() : JSX.Element {
   if (!offer) {
     return <div>No offer found</div>;
   }
-  const percent = Math.min(100, Math.max(0, (offer.rating / 5) * 100));
+  const starsPercent = (Math.round(offer.rating) / 5) * 100;
   return (
     <PageTitle>
       <div className="page">
         <HeaderMemo />
+        <ServerError />
         <main className="page__main page__main--offer">
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {offer?.images.map((src, index) => (
+                {offer?.images.slice(0, 6).map((src, index) => (
                   <div key={src} className="offer__image-wrapper">
                     <img
                       className="offer__image"
@@ -113,7 +115,7 @@ function OfferPage() : JSX.Element {
                 </div>
                 <div className="offer__rating rating">
                   <div className="offer__stars rating__stars">
-                    <span style={{ width: `${percent}%` }} />
+                    <span style={{ width: `${starsPercent}%` }} />
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="offer__rating-value rating__value">{offer?.rating}</span>
@@ -121,10 +123,10 @@ function OfferPage() : JSX.Element {
                 <ul className="offer__features">
                   <li className="offer__feature offer__feature--entire">{offer?.type}</li>
                   <li className="offer__feature offer__feature--bedrooms">
-                    {offer?.bedrooms} Bedrooms
+                    {offer.bedrooms} {offer.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
                   </li>
                   <li className="offer__feature offer__feature--adults">
-                  Max {offer?.maxAdults} adults
+                    Max {offer.maxAdults} {offer.maxAdults === 1 ? 'adult' : 'adults'}
                   </li>
                 </ul>
                 <div className="offer__price">
@@ -142,7 +144,7 @@ function OfferPage() : JSX.Element {
                 <div className="offer__host">
                   <h2 className="offer__host-title">Meet the host</h2>
                   <div className="offer__host-user user">
-                    <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                    <div className={`offer__avatar-wrapper user__avatar-wrapper ${offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''}`}>
                       <img
                         className="offer__avatar user__avatar"
                         src={offer?.host.avatarUrl}
@@ -152,16 +154,11 @@ function OfferPage() : JSX.Element {
                       />
                     </div>
                     <span className="offer__user-name">{offer?.host.name}</span>
-                    <span className="offer__user-status">{offer?.host.isPro ? 'Pro' : 'Non Pro'}</span>
+                    <span className="offer__user-status">{offer?.host.isPro ? 'Pro' : ''}</span>
                   </div>
                   <div className="offer__description">
                     <p className="offer__text">
                       {offer?.description}
-                    </p>
-                    <p className="offer__text">
-                    An independent House, strategically located between Rembrand
-                    Square and National Opera, but where the bustle of the city
-                    comes to rest in this alley flowery and colorful.
                     </p>
                   </div>
                 </div>

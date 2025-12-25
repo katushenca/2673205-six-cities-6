@@ -6,6 +6,7 @@ import authReducer from './slices/auth-slice';
 import loadingReducer from './slices/loading-slice';
 import commentsReducer from './slices/comments-slice';
 import nearbyReducer from './slices/nearby-slice';
+import serverAppReducer from './slices/server-app-slice';
 
 export const api = createAPI();
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     loading: loadingReducer,
     comments: commentsReducer,
     nearby: nearbyReducer,
+    serverApp: serverAppReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

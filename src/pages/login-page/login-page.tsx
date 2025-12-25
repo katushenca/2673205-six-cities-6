@@ -1,11 +1,13 @@
 import PageTitle from '@PageTitle/page-title.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {FormEvent, useEffect, useMemo, useState} from 'react';
-import {AppRoute, AuthorizationStatus, PASSWORD_PATTERN} from '../../const.ts';
+import {AppRoute, AuthorizationStatus, CITIES, PASSWORD_PATTERN} from '../../const.ts';
 import {useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/actions/api-actions.ts';
 import HeaderMemo from '@Header/header.tsx';
 import {selectAuthStatus} from '../../store/selectors/selectors.ts';
+import ServerError from '../../components/server-error/server-error.tsx';
+import {changeCity} from '../../store/slices/offers-slice.ts';
 
 function LoginPage() : JSX.Element {
   const navigate = useNavigate();
@@ -45,11 +47,21 @@ function LoginPage() : JSX.Element {
     [validationError]
   );
 
+  const randomCity = useMemo(() => {
+    const index = Math.floor(Math.random() * CITIES.length);
+    return CITIES[index];
+  }, []);
+
+  const handleCityClick = () => {
+    dispatch(changeCity(randomCity));
+    navigate(AppRoute.Main);
+  };
+
   return (
     <PageTitle>
       <div className="page page--gray page--login">
         <HeaderMemo hideHeaderNav />
-
+        <ServerError />
         <main className="page__main page__main--login">
           <div className="page__login-container container">
             <section className="login">
@@ -73,9 +85,14 @@ function LoginPage() : JSX.Element {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
-                  <span>Amsterdam</span>
-                </a>
+                <button
+                  className="locations__item-link"
+                  type="button"
+                  onClick={handleCityClick}
+                  style={{background: 'none', border: 0, padding: 0, cursor: 'pointer'}}
+                >
+                  <span>{randomCity.name}</span>
+                </button>
               </div>
             </section>
           </div>

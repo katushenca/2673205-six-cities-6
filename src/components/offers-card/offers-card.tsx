@@ -24,7 +24,7 @@ function OffersCard({offerCard, onHover, onLeave, isFavoritePage, cardPageName}:
     if (offerCard) {
       dispatch(updateFavoriteAction({
         offerId: offerCard.id,
-        isFavorite: !offerCard.isFavorite
+        isFavorite: !isFavoriteOffer
       }));
     }
   };

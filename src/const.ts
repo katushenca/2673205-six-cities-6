@@ -88,3 +88,5 @@ export const SortTypeNames: Record<SortType, string> = {
   [SortType.PriceHighToLow]: 'Price: high to low',
   [SortType.TopRatedFirst]: 'Top rated first',
 };
+
+export const SERVER_ERROR_TEXT = 'Сервер недоступен (5xx). Попробуйте позже.';

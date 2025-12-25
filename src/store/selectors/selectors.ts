@@ -12,6 +12,7 @@ export const selectFavorites = (state: TState) => state.favorites.favorites;
 export const selectComments = (state: TState) => state.comments.comments;
 export const selectNearbyOffers = (state: TState) => state.nearby.nearbyOffers;
 export const selectOfferNotFound = (state: TState) => state.offers.notFound;
+export const selectServerError = (state: TState) => state.serverApp.serverError;
 
 export const selectFilteredOffers = createSelector(
   [selectOffers, selectCurrentCity],
